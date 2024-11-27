@@ -1,6 +1,6 @@
+import sys
 from data_handler import read_products, write_products
-from sorting import quick_sort, merge_sort
-from searching import linear_search
+from sorting import quick_sort, merge_sort, heap_sort
 from searching import linear_search, binary_search
 
 def display_products(products):
@@ -80,15 +80,15 @@ def sorting_menu(products):
                 criteria = input("Select sorting criteria: ")
 
                 if criteria == "1":
-                    products = quick_sort(products, key='price', reverse=False)
+                    products = heap_sort(products, key='price', reverse=False)
                     print("\nProducts sorted by Price (Ascending):")
                     display_products(products)
                 elif criteria == "2":
-                    products = quick_sort(products, key='rating', reverse=True)
+                    products = heap_sort(products, key='rating', reverse=True)
                     print("\nProducts sorted by Rating (Descending):")
                     display_products(products)
                 elif criteria == "3":
-                    products = quick_sort(products, key='number_of_reviews', reverse=True)
+                    products = heap_sort(products, key='number_of_reviews', reverse=True)
                     print("\nProducts sorted by Number of Reviews (Descending):")
                     display_products(products)
                 elif criteria == "4":
@@ -193,8 +193,11 @@ def searching_menu(products):
         else:
             print("Invalid choice. Please try again.")
 
-def main():
-    filename = "productdata.csv"
+def main(argv):
+    try:
+        filename = sys.argv[1]
+    except(IndexError):
+        filename = "productdata.csv"
     products = read_products(filename)
 
     if not products:
@@ -221,4 +224,4 @@ def main():
             print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
